@@ -7,6 +7,8 @@ import com.dai.entity.GameObject;
 import com.dai.render.Material;
 import com.dai.render.Mesh;
 import com.dai.render.MeshRender;
+import com.dai.render.Shader;
+import com.dai.render.ShaderManager;
 import com.dai.utils.ResourceLoader;
 
 public class TestSunEarthMoon extends BaseGame {
@@ -50,21 +52,22 @@ public class TestSunEarthMoon extends BaseGame {
 	public void init() {
 		
 		Mesh mesh = ResourceLoader.loadMesh("ball_1.obj");
-		Material material = new Material();
-
+		Material material = new Material(0,0.5f,0,1);
+		Shader shader = ShaderManager.getShader(ShaderManager.TEST_SHADER_POS_UCOLOR);
+		
 		// sun
 		sun = new GameObject();
-		sun.addComponent(new MeshRender(mesh, material));
+		sun.addComponent(new MeshRender(mesh, material,shader));
 		getRootObject().addChild(sun);
 
 		// earth
 		earth = new GameObject();
-		earth.addComponent(new MeshRender(mesh, material));
+		earth.addComponent(new MeshRender(mesh, material,shader));
 		sun.addChild(earth);
 
 		// moon
 		moon = new GameObject();
-		moon.addComponent(new MeshRender(mesh, material));
+		moon.addComponent(new MeshRender(mesh, material,shader));
 		earth.addChild(moon);
 
 		// 设置初始位置和大小

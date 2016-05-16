@@ -16,8 +16,8 @@ public abstract class BaseGame {
 		getRootObject().update();
 	};
 
-	public void render(Shader shader) {
-		getRootObject().render(shader);
+	public void render() {
+		getRootObject().render();
 	};
 
 	public GameObject getRootObject() {

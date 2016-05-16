@@ -5,7 +5,7 @@
 	<classpathentry kind="lib" path="libs/lwjgl_util.jar" sourcepath="/Users/dai/Graphics/lwjgl-2.9.3/jar/lwjgl_util.jar"/>
 	<classpathentry kind="lib" path="libs/lwjgl.jar" sourcepath="/Volumes/DATA/Graphics/lwjgl-2.9.3/jar/lwjgl.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="/Users/dai/Graphics/lwjgl-2.9.3/native/macosx"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="/Volumes/DATA/Graphics/lwjgl-2.9.3/native/macosx"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="output" path="bin"/>

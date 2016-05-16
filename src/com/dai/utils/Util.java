@@ -4,9 +4,7 @@ import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
-
 import org.lwjgl.BufferUtils;
-
 import com.dai.base.Matrix4f;
 import com.dai.base.Vertex;
 
@@ -16,14 +14,59 @@ public class Util {
 		return BufferUtils.createFloatBuffer(size);
 	}
 
-	public static FloatBuffer createFlippedBuffer(Vertex[] vertices) {
-		FloatBuffer buffer = createFloatBuffer(vertices.length * Vertex.SIZE);
+	// 产生只包含 顶点和 纹理 的数据
+	public static FloatBuffer genVertexAndTexCoordFlippedBuffer(Vertex[] vertices) {
+		FloatBuffer buffer = createFloatBuffer(vertices.length * Vertex.VERTEX_TEXCOORD_SIZE);
 		for (int i = 0; i < vertices.length; i++) {
 			buffer.put(vertices[i].getPos().getX());
 			buffer.put(vertices[i].getPos().getY());
 			buffer.put(vertices[i].getPos().getZ());
 			buffer.put(vertices[i].getTexCoord().getX());
 			buffer.put(vertices[i].getTexCoord().getY());
+		}
+		buffer.flip();
+		return buffer;
+	}
+	
+	// 产生只包含 顶点和 法线 的数据
+	public static FloatBuffer genVertexAndNormalFlippedBuffer(Vertex[] vertices) {
+		FloatBuffer buffer = createFloatBuffer(vertices.length * Vertex.VERTEX_NORMAL_SIZE);
+		for (int i = 0; i < vertices.length; i++) {
+			buffer.put(vertices[i].getPos().getX());
+			buffer.put(vertices[i].getPos().getY());
+			buffer.put(vertices[i].getPos().getZ());
+			buffer.put(vertices[i].getNormal().getX());
+			buffer.put(vertices[i].getNormal().getY());
+			buffer.put(vertices[i].getNormal().getZ());
+		}
+		buffer.flip();
+		return buffer;
+	}
+	
+	// 产生只包含 顶点 的数据
+	public static FloatBuffer genVertexFlippedBuffer(Vertex[] vertices) {
+		FloatBuffer buffer = createFloatBuffer(vertices.length * Vertex.VERTEX_SIZE);
+		for (int i = 0; i < vertices.length; i++) {
+			buffer.put(vertices[i].getPos().getX());
+			buffer.put(vertices[i].getPos().getY());
+			buffer.put(vertices[i].getPos().getZ());
+		}
+		buffer.flip();
+		return buffer;
+	}
+	
+	// 产生包含 顶点 纹理 法线 的数据
+	public static FloatBuffer genVertexAndTexCoordAndNormalFlippedBuffer(Vertex[] vertices) {
+		FloatBuffer buffer = createFloatBuffer(vertices.length * Vertex.VERTEX_TEXCOORD_NORMAL_SIZE);
+		for (int i = 0; i < vertices.length; i++) {
+			buffer.put(vertices[i].getPos().getX());
+			buffer.put(vertices[i].getPos().getY());
+			buffer.put(vertices[i].getPos().getZ());
+			buffer.put(vertices[i].getTexCoord().getX());
+			buffer.put(vertices[i].getTexCoord().getY());
+			buffer.put(vertices[i].getNormal().getX());
+			buffer.put(vertices[i].getNormal().getY());
+			buffer.put(vertices[i].getNormal().getZ());
 		}
 		buffer.flip();
 		return buffer;

@@ -65,15 +65,15 @@ public class GameObject {
 		}
 	}
 
-	public void render(Shader shader) {
+	public void render() {
 
 		// 先渲染自己,再递归渲染子节点
 		for (GameComponent component : components) {
-			component.render(shader);
+			component.render();
 		}
 
 		for (GameObject child : children) {
-			child.render(shader);
+			child.render();
 		}
 	}
 

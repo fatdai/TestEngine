@@ -35,7 +35,7 @@ public class RenderEngine {
 	public void render(GameObject object) {
 		clearScreen();
 		object.visit();
-		object.render(BasicShader.getInstance());
+		object.render();
 	}
 
 	public Camera getMainCamera() {

@@ -1,6 +1,5 @@
 package com.dai.entity;
 
-import com.dai.render.Shader;
 import com.dai.render.Transform;
 
 public abstract class GameComponent {
@@ -22,6 +21,6 @@ public abstract class GameComponent {
 	public void update() {
 	};
 
-	public void render(Shader shader) {
+	public void render() {
 	};
 }
