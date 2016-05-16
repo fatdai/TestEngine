@@ -48,8 +48,9 @@ public class Material {
 		return intensity;
 	}
 
-	public void setIntensity(float intensity) {
+	public Material setIntensity(float intensity) {
 		this.intensity = intensity;
+		return this;
 	}
 	
 	

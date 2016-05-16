@@ -149,7 +149,7 @@ public class Shader {
 			setUniform("u_mMatrix",transform.getFinalMatrix());
 			
 			// 环境光颜色
-			setUniform("u_ambient_color",new Vector3f(1, 0, 0));
+			setUniform("u_ambient_color",new Vector3f(1, 1, 1));
 			setUniformf("u_ambient_strength",material.getIntensity());
 			setUniform("u_color",material.getColor());
 		}

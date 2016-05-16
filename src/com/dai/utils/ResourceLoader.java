@@ -61,7 +61,6 @@ public class ResourceLoader {
 
 		ArrayList<Vertex> vertices = new ArrayList<Vertex>();
 		ArrayList<Integer> indices = new ArrayList<Integer>();
-
 		try {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("./res/models/" + fileName)));
 			String line;

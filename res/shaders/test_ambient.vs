@@ -2,6 +2,7 @@
 
 // 环境光
 attribute vec3 position;
+attribute vec3 normal;
 
 // 各个矩阵
 uniform mat4 u_pMatrix;
@@ -15,6 +16,11 @@ uniform vec3 u_ambient_color;
 uniform float u_ambient_strength;
 
 varying vec3 v_ambientColor;
+
+// 我们先测试 方向光
+uniform vec3 u_lightDir;
+
+// 直接使用计算公式计算
 
 void main(){
     gl_Position = u_pMatrix * u_vMatrix * u_mMatrix * vec4(position,1.0);

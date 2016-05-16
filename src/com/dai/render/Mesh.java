@@ -4,8 +4,16 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.*;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.FloatBuffer;
+import java.util.ArrayList;
 
+import com.dai.base.Vector3f;
 import com.dai.base.Vertex;
 import com.dai.utils.Util;
 
@@ -128,4 +136,83 @@ public class Mesh {
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
+	//----------------------------------------------------------------------------
+	// 提供一些基础的图形，比如cube  球体 等
+	public static Mesh createCube() {
+//		Mesh mesh = new Mesh();
+//		Vertex[] vertexs = new Vertex[]{
+//				new Vertex(new Vector3f(-1, -1, 1)),
+//				new Vertex(new Vector3f(1, -1, 1)),
+//				new Vertex(new Vector3f(1, -1, -1)),
+//				new Vertex(new Vector3f(-1, -1, -1)),
+//				new Vertex(new Vector3f(-1, 1, 1)),
+//				new Vertex(new Vector3f(1, 1, 1)),
+//				new Vertex(new Vector3f(1, 1, -1)),
+//				new Vertex(new Vector3f(-1,1,-1))
+//		};
+//		int[] indices = new int[]{
+//				0,1,2,0,2,3,  // down
+//				4,5,6,4,6,7, // up
+//				3,0,4,3,4,7, // left
+//				1,2,6,1,6,5, // right
+//				0,1,5,0,5,4, // near
+//				2,3,7,2,7,6, // far
+//		};
+//		mesh.addVertices(vertexs, indices);
+//		return mesh;
+		return Mesh.simpleObjLoader("../res/cube.obj");
+	}
+	
+	public static Mesh createBall(){
+		return Mesh.simpleObjLoader("../res/ball.obj");
+	}
+	
+	private static Mesh simpleObjLoader(String interObjPath){
+		Mesh mesh = new Mesh();
+		ArrayList<Vertex> vertices = new ArrayList<Vertex>();
+		ArrayList<Integer> indices = new ArrayList<Integer>();
+		InputStream is = mesh.getClass().getResourceAsStream(interObjPath);
+		if (null == is) {
+			new Exception("interObjPath is not exist!").printStackTrace();
+			return null;
+		}
+		try {
+			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+			String line;
+			while ((line = reader.readLine()) != null) {
+				String[] tokens = line.split(" ");
+				tokens = Util.removeEmptyStrings(tokens);
+
+				if (tokens.length == 0 || tokens[0].equals("#")) {
+					continue;
+				} else if (tokens[0].equals("v")) {
+					vertices.add(new Vertex(new Vector3f(Float.valueOf(tokens[1]), Float.valueOf(tokens[2]), Float
+							.valueOf(tokens[3]))));
+				} else if (tokens[0].equals("f")) {
+					indices.add(Integer.parseInt(tokens[1].split("/")[0]) - 1);
+					indices.add(Integer.parseInt(tokens[2].split("/")[0]) - 1);
+					indices.add(Integer.parseInt(tokens[3].split("/")[0]) - 1);
+
+					if (tokens.length > 4) {
+						indices.add(Integer.parseInt(tokens[1].split("/")[0]) - 1);
+						indices.add(Integer.parseInt(tokens[3].split("/")[0]) - 1);
+						indices.add(Integer.parseInt(tokens[4].split("/")[0]) - 1);
+					}
+				}
+			}
+			reader.close();
+
+			Vertex[] vertexData = new Vertex[vertices.size()];
+			vertices.toArray(vertexData);
+			Integer[] indexData = new Integer[indices.size()];
+			indices.toArray(indexData);
+			mesh.addVertices(vertexData, Util.toIntArrat(indexData));
+			return mesh;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
