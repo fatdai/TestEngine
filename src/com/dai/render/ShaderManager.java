@@ -53,12 +53,12 @@ public class ShaderManager {
 	}
 	
 	// 添加自定义的shader
-	public void addCustomShader(String name,Shader shader){
-		if (getShader(name) != null) {
+	public void addCustomShader(Shader shader){
+		if (getShader(shader.getShaderName()) != null) {
 			System.out.println("已经存在!");
 			return;
 		}
-		_cachedShader.put(name, shader);
+		_cachedShader.put(shader.getShaderName(), shader);
 	}
 
 	public static Shader getShader(String name){

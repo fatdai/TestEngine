@@ -4,9 +4,9 @@ import com.dai.entity.GameComponent;
 
 public class MeshRender extends GameComponent {
 
-	private Mesh mesh;
-	private Material material;
-	private Shader shader;
+	protected Mesh mesh;
+	protected Material material;
+	protected Shader shader;
 	
 	public MeshRender(Mesh mesh, Material material,Shader shader) {
 		this.mesh = mesh;

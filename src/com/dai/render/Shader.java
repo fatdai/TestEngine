@@ -50,7 +50,7 @@ public class Shader {
 		addProgram(text, GL_FRAGMENT_SHADER);
 	}
 
-	public void addProgram(String text, int type) {
+	private void addProgram(String text, int type) {
 		int shader = glCreateShader(type);
 		if (shader == 0) {
 			System.err.println("create shader type :" + type + " error!");
@@ -126,6 +126,7 @@ public class Shader {
 	public void updateUniforms(Transform transform, Material material) {
 		
 		material.bind();
+		Camera mainCamera = RenderEngine.getInstance().getMainCamera();
 		Matrix4f mvp = RenderEngine.getInstance().getMainCamera().getPVMatrix().mul(transform.getFinalMatrix());
 		
 		// 传递 uniform 给 gpu
@@ -140,7 +141,19 @@ public class Shader {
 		}else if (shaderName.equals(ShaderManager.TEST_SHADER_POS_UCOLOR)) {
 			setUniform("u_mvpMatrix",mvp);
 			setUniform("u_color",material.getColor());
-		}else {
+		}else if (shaderName.equals("light")) {
+			
+			// 先假设全部受到光照
+			setUniform("u_pMatrix",mainCamera.getProjMatrix());
+			setUniform("u_vMatrix",mainCamera.getViewMatrix());
+			setUniform("u_mMatrix",transform.getFinalMatrix());
+			
+			// 环境光颜色
+			setUniform("u_ambient_color",new Vector3f(1, 0, 0));
+			setUniformf("u_ambient_strength",material.getIntensity());
+			setUniform("u_color",material.getColor());
+		}
+		else {
 			System.out.println("无效的 shader.....");
 			new Exception("无效的 shader.....").printStackTrace();
 		}

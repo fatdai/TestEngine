@@ -1,7 +1,5 @@
 package com.dai.entity;
 
-import com.dai.render.Shader;
-
 public abstract class BaseGame {
 
 	protected GameObject root;

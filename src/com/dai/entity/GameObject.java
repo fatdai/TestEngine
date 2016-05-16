@@ -13,6 +13,10 @@ public class GameObject {
 
 	private Transform transform;
 
+	// 可能会受到光照的影响
+	// 默认受所有的光照影响
+	private int lightMask = 0xFFFFFFFF;
+	
 	public GameObject() {
 		children = new ArrayList<GameObject>();
 		components = new ArrayList<GameComponent>();
@@ -91,4 +95,13 @@ public class GameObject {
 			child.visit();
 		}
 	}
+
+	public int getLightMask() {
+		return lightMask;
+	}
+	public void setLightMask(int lightMask) {
+		this.lightMask = lightMask;
+	}
+	
+	
 }

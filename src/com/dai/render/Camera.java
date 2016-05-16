@@ -19,82 +19,89 @@ public class Camera {
 	private float near;
 	private float far;
 
+	// 投影矩阵
+	private Matrix4f projMatrix;
+
+	// 视图矩阵
+	private Matrix4f viewMatrix;
+	private boolean changed;
+
 	public Camera(float fov, float ratio, float near, float far) {
 		this.fov = fov;
 		this.ratio = ratio;
 		this.near = near;
 		this.far = far;
-		
+
 		pos = new Vector3f(0, 0, 0);
 		forward = new Vector3f(0, 0, -1);
 		up = new Vector3f(0, 1, 0);
+
+		// 投影矩阵,不会改变
+		projMatrix = new Matrix4f().initPerspective(fov, ratio, near, far);
+		changed = true;
 	}
-	
-	public void setCamera(Vector3f pos, Vector3f forward, Vector3f up){
+
+	public void setCamera(Vector3f pos, Vector3f forward, Vector3f up) {
 		this.pos = pos;
 		this.forward = forward;
 		this.up = up;
 
 		this.forward.normailze();
 		this.up.normailze();
+
+		changed = true;
 	}
 
-	// 
-	public Matrix4f getViewMatrix(){
+	public boolean isChanged() {
+		return changed;
+	}
+
+	//
+	public Matrix4f getViewMatrix() {
 		
-		// 计算 zaxis
-		Vector3f zaxis = new Vector3f(-forward.getX(), -forward.getY(), -forward.getZ());
+		if (isChanged()) {
+			// 计算 zaxis
+			Vector3f zaxis = new Vector3f(-forward.getX(), -forward.getY(), -forward.getZ());
 
-		// 计算 xaxis
-		Vector3f xaxis = up.cross(zaxis);
-		xaxis.normailze();
+			// 计算 xaxis
+			Vector3f xaxis = up.cross(zaxis);
+			xaxis.normailze();
 
-		// 计算 yaxis
-		Vector3f yaxis = zaxis.cross(xaxis);
-		zaxis.normailze();
+			// 计算 yaxis
+			Vector3f yaxis = zaxis.cross(xaxis);
+			zaxis.normailze();
 
-		// M = T * R
-		// 我们需要求 M^-1 = (T * R)^-1 = R^-1 * T^-1
-		Matrix4f rotation = new Matrix4f();
+			// M = T * R
+			// 我们需要求 M^-1 = (T * R)^-1 = R^-1 * T^-1
+			Matrix4f rotation = new Matrix4f();
 
-		// 这里我们直接转置
-		float[][] m = new float[][] { { xaxis.getX(), xaxis.getY(), xaxis.getZ(), 0 },
-				{ yaxis.getX(), yaxis.getY(), yaxis.getZ(), 0 }, { zaxis.getX(), zaxis.getY(), zaxis.getZ(), 0 }, { 0, 0, 0, 1 }, };
-		rotation.setM(m);
+			// 这里我们直接转置
+			float[][] m = new float[][] { { xaxis.getX(), xaxis.getY(), xaxis.getZ(), 0 },
+					{ yaxis.getX(), yaxis.getY(), yaxis.getZ(), 0 }, { zaxis.getX(), zaxis.getY(), zaxis.getZ(), 0 },
+					{ 0, 0, 0, 1 }, };
+			rotation.setM(m);
 
-		Matrix4f trans = new Matrix4f();
-		trans.initTranslation(-pos.getX(), -pos.getY(), -pos.getZ());
+			Matrix4f trans = new Matrix4f();
+			trans.initTranslation(-pos.getX(), -pos.getY(), -pos.getZ());
 
-		// 最终的结果为
-		return rotation.mul(trans);
+			// 最终的结果为
+			viewMatrix = rotation.mul(trans);
+			changed = false;
+		}
+		return viewMatrix;
 	}
-	
-	
-	private Matrix4f getProjectionMatrix(){
-		return new Matrix4f().initPerspective(fov, ratio, near, far);
+
+	public Matrix4f getProjMatrix() {
+		return projMatrix;
 	}
-	
-	public Matrix4f getPVMatrix(){
-		return getProjectionMatrix().mul(getViewMatrix());
+
+	public Matrix4f getPVMatrix() {
+		return getProjMatrix().mul(getViewMatrix());
 	}
-	
-//	public Camera() {
-//		this(new Vector3f(0, 0, 0), new Vector3f(0, 0, -1), new Vector3f(0, 1, 0));
-//	}
-//
-//	public Camera(Vector3f pos, Vector3f forward, Vector3f up) {
-//		super();
-//		this.pos = pos;
-//		this.forward = forward;
-//		this.up = up;
-//
-//		this.forward.normailze();
-//		this.up.normailze();
-//	}
 
 	public void input() {
-		float moveAmt = (float) (10 * Time.getDelta());
-		float rotAmt = (float) (100 * Time.getDelta());
+		float moveAmt = (float) (5 * Time.getDelta());
+		float rotAmt = (float) (50 * Time.getDelta());
 		if (Input.getKey(Input.KEY_W)) {
 			move(getForward(), moveAmt);
 		}
@@ -126,6 +133,7 @@ public class Camera {
 
 	public void move(Vector3f dir, float amt) {
 		pos = pos.add(dir.mul(amt));
+		changed = true;
 	}
 
 	// --------------------------
@@ -144,6 +152,8 @@ public class Camera {
 		// 计算新的up
 		up = forward.cross(Haxis);
 		up.normailze();
+		
+		changed = true;
 	}
 
 	// 围绕x轴旋转
@@ -159,6 +169,8 @@ public class Camera {
 		// 计算出相机新的 up
 		up = forward.cross(Haxis);
 		up.normailze();
+		
+		changed = true;
 	}
 
 	// 从相机观察,如果让相机往-x移动,相当于被观察的对象往x移动
@@ -181,24 +193,13 @@ public class Camera {
 		return pos;
 	}
 
-	public void setPos(Vector3f pos) {
-		this.pos = pos;
-	}
-
 	public Vector3f getForward() {
 		return forward;
 	}
 
-	public void setForward(Vector3f forward) {
-		this.forward = forward;
-	}
 
 	public Vector3f getUp() {
 		return up;
-	}
-
-	public void setUp(Vector3f up) {
-		this.up = up;
 	}
 
 }

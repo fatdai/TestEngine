@@ -69,12 +69,11 @@ public class CoreEngine {
 				unprocessedTime -= frameTime;
 
 				Time.setDelta(frameTime);
-				Input.update();
-
 				game.input();
-				game.update();
 				_renderEngine.input();
-
+				Input.update();
+				game.update();
+				
 				if (frameCounter >= Time.SECOND) {
 					System.out.println(frames);
 					frames = 0;
