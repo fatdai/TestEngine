@@ -1,7 +1,9 @@
 package com.dai.utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import com.dai.base.Vector3f;
 import com.dai.render.Mesh;
 
 
@@ -13,10 +15,16 @@ public class ObjLoader {
 		// 存储所有顶点
 		ArrayList<Float> allVertices = new ArrayList<Float>();
 		
+		// 存储所有顶点
 		ArrayList<Float> allTextures = new ArrayList<Float>();
 		
+		// 存储所有法线
+		ArrayList<Float> allNormals = new ArrayList<Float>();
 		
-		
+		// 存储所有顶点对应的面法线
+		HashMap<Integer, ArrayList<Vector3f>> allMaps = new HashMap<Integer, ArrayList<Vector3f>>();
+ 		
+		ArrayList<Integer> allIndices = new ArrayList<Integer>();
 		
 		
 		Mesh mesh = new Mesh();
