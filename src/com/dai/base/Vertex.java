@@ -28,6 +28,11 @@ public class Vertex {
 		this.normal = normal;
 	}
 	
+	public Vertex(Vector3f pos,Vector3f normal){
+		this.pos = pos;
+		this.normal = normal;
+	}
+	
 	public Vector3f getPos() {
 		return pos;
 	}

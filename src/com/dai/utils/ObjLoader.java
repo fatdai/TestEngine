@@ -28,6 +28,8 @@ public class ObjLoader {
 		ArrayList<Integer> allIndices = new ArrayList<Integer>();
 		
 		
+		
+		
 		Mesh mesh = new Mesh();
 		return mesh;
 	}

@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import com.dai.base.Vector3f;
 import com.dai.base.Vertex;
 import com.dai.utils.Util;
+import com.dai.utils.meshloading.IndexedModel;
+import com.dai.utils.meshloading.OBJModel;
 
 
 // Mesh 包含哪些数据?
@@ -166,7 +168,7 @@ public class Mesh {
 	public static Mesh createBall(){
 		return Mesh.simpleObjLoader("../res/ball.obj");
 	}
-	
+
 	private static Mesh simpleObjLoader(String interObjPath){
 		Mesh mesh = new Mesh();
 		ArrayList<Vertex> vertices = new ArrayList<Vertex>();
@@ -206,7 +208,7 @@ public class Mesh {
 			vertices.toArray(vertexData);
 			Integer[] indexData = new Integer[indices.size()];
 			indices.toArray(indexData);
-			mesh.addVertices(vertexData, Util.toIntArrat(indexData));
+			mesh.addVertices(vertexData, Util.toIntArray(indexData));
 			return mesh;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

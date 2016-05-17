@@ -37,6 +37,10 @@ public class TestTriangle extends BaseGame{
 		Camera camera = RenderEngine.getInstance().getMainCamera();
 		camera.setCamera(new Vector3f(0, 0, 5), new Vector3f(0, 0, -1), Vector3f.Y_AXIS);
 		
+		// 随便加载个模型看看
+		
+		
+		
 		Material material = new Material(1, 1, 0, 1);
 		MeshRender render = new MeshRender(mesh, material, ShaderManager.getShader(ShaderManager.TEST_SHADER_POS_UCOLOR));
 		GameObject triangle = new GameObject();

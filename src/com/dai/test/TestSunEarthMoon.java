@@ -51,7 +51,7 @@ public class TestSunEarthMoon extends BaseGame {
 	@Override
 	public void init() {
 		
-		Mesh mesh = ResourceLoader.loadMesh("ball_1.obj");
+		Mesh mesh = ResourceLoader.loadObjOnlyVertex("ball_1.obj");
 		Material material = new Material(0,0.5f,0,1);
 		Shader shader = ShaderManager.getShader(ShaderManager.TEST_SHADER_POS_UCOLOR);
 		

@@ -39,7 +39,7 @@ public class TestAmbient extends BaseGame {
 		ShaderManager.getInstance().addCustomShader(shader);
 
 		// 设置一个球
-		Mesh mesh = ResourceLoader.loadMesh("ball_1.obj");
+		Mesh mesh = ResourceLoader.loadObjOnlyVertex("ball_1.obj");
 		material = new Material(1,1,0,1);
 		material.setIntensity(0.5f);
 		MeshRender render = new MeshRender(mesh, material, shader);
@@ -53,16 +53,11 @@ public class TestAmbient extends BaseGame {
 		lamp.addComponent(light);
 		getRootObject().addChild(lamp);
 		
-		Mesh testMesh = Mesh.createBall();
+		Mesh testMesh = ResourceLoader.loadObjWithNormalOrTexCoord("monkey3.obj");
 		GameObject testBall = new GameObject();
 		testBall.addComponent(new MeshRender(testMesh, material, shader));
 		testBall.getTransform().setPosition(-2, 0, -5);
 		getRootObject().addChild(testBall);
-		
-		GameObject testCube = new GameObject();
-		testCube.addComponent(new MeshRender(Mesh.createCube(), new Material(1, 0, 1, 1).setIntensity(0.8f), shader));
-		getRootObject().addChild(testCube);
-		testCube.getTransform().setPosition(3, 0, -3);
 	}
 
 	@Override

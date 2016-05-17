@@ -10,15 +10,13 @@ public class BaseLight extends GameComponent{
 	public static final int POINT_LIGHT = 3;
 	public static final int SPOT_LIGHT = 4;
 	
+	// 光的类型
 	protected int lightType;
 	protected boolean enable;
 	
 	// 光强
 	protected float intensity;
-	
-	// light flag,只有和物体的lightMask进行与操作不为0时,灯光才对物体有效
-	protected int lightFlag;
-	
+
 	public BaseLight(float intensity) {
 		this.intensity = intensity;
 	}
