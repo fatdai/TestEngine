@@ -24,6 +24,7 @@ public class ObjLoader {
 		// 存储所有顶点对应的面法线
 		HashMap<Integer, ArrayList<Vector3f>> allMaps = new HashMap<Integer, ArrayList<Vector3f>>();
  		
+		// 所有索引,
 		ArrayList<Integer> allIndices = new ArrayList<Integer>();
 		
 		
